@@ -1,8 +1,11 @@
 <?php
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "broadband_system";
+$host = "sql304.infinityfree.com";
+$username = "if0_41876637";
+$password = "03BeecWM34VSLk";
+$database = "if0_41876637_broadband_system";
+
+
+
 
 $conn = mysqli_connect($host, $username, $password, $database);
 

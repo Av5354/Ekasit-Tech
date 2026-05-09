@@ -1,4 +1,5 @@
 <?php
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
@@ -7,7 +8,8 @@ header("Access-Control-Allow-Headers: Content-Type");
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
-$conn = new mysqli("localhost", "root", "", "broadband_system");
+
+include("../config/db.php");
 
 $query = "
 SELECT 
@@ -22,11 +24,11 @@ JOIN plan_prices pp ON p.id = pp.plan_id
 ORDER BY p.id
 ";
 
-$result = $conn->query($query);
+$result = mysqli_query($conn, $query);
 
 $plans = [];
 
-while ($row = $result->fetch_assoc()) {
+while ($row = mysqli_fetch_assoc($result)) {
     $planId = $row['id'];
 
     if (!isset($plans[$planId])) {
@@ -44,4 +46,5 @@ while ($row = $result->fetch_assoc()) {
 }
 
 echo json_encode(array_values($plans));
+
 ?>

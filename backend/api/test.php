@@ -1,14 +1,17 @@
 <?php
-include("../config/db.php");
+ include("../config/db.php");
 
-$query = "SELECT * FROM plans";
-$result = mysqli_query($conn, $query);
+ $query = "SELECT * FROM plans";
+ $result = mysqli_query($conn, $query);
 
-$plans = [];
+ $plans = [];
 
-while ($row = mysqli_fetch_assoc($result)) {
+ while ($row = mysqli_fetch_assoc($result)) {
     $plans[] = $row;
-}
+ }
 
-echo json_encode($plans);
+ echo json_encode($plans);
+
+echo "PHP Working";
+
 ?>
