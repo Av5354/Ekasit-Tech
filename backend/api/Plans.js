@@ -4,7 +4,7 @@ function Plans() {
   const [plans, setPlans] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost/broadband-project/backend/api/get_plans.php")
+    fetch("https://ekasit-tech.infinityfree.me/api/get_plans.php")
       .then((res) => res.json())
       .then((data) => {
         setPlans(data.data);
