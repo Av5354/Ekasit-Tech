@@ -4,9 +4,11 @@ import { Wifi } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const Planstab = ({ showViewAll = false }: { showViewAll?: boolean }) => {
-  const [selectedPlan, setSelectedPlan] = useState({});
-  const [plans, setPlans] = useState([]);
+  const [selectedPlan, setSelectedPlan] = useState<Record<string, number>>({});
+  const [plans, setPlans] = useState<any[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  
 
   const handleSelectPlan = (p: any) => {
     const selectedIndex = selectedPlan[p.speed];
@@ -22,7 +24,7 @@ const Planstab = ({ showViewAll = false }: { showViewAll?: boolean }) => {
   };
 
   useEffect(() => {
-    fetch("http://localhost/broadband-project/backend/api/get_plans.php")
+    fetch(`https://ekasit-tech.infinityfree.me/api/get_plans.php`)
       .then((res) => res.json())
       .then((data) => setPlans(data))
       .catch((err) => console.log(err));
