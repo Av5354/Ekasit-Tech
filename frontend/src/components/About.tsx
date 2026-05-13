@@ -21,11 +21,11 @@ const About = () => (
         About
       </div>
 
-      <h2 className="mx-auto max-w-4xl text-3xl font-bold leading-tight text-[#d8c8ea] drop-shadow-[0_0_36px_rgba(149,74,255,0.32)] sm:text-4xl lg:text-5xl">
+      <h2 className="mx-auto max-w-4xl text-3xl font-bold leading-tight text-[#d8c8ea] drop-shadow-[0_0_36px_rgba(149,74,255,0.32)] sm:text-4xl lg:text-5xl text-left sm:text-center">
         Powerful Network Solutions to Simplify Your Connectivity
       </h2>
 
-      <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-purple-100/72 sm:text-base">
+      <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-purple-100/72 sm:text-base text-left sm:text-center">
         Discover how our reliable broadband services keep your home, business,
         and community connected with faster speeds and steady support.
       </p>
