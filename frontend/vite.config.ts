@@ -8,6 +8,18 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    proxy: {
+      "/api/get_plans": {
+        target: "https://ekasit-tech.infinityfree.me",
+        changeOrigin: true,
+        secure: false,
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "ekasit-tech-local-dev",
+        },
+        rewrite: (path) => path.replace(/^\/api\/get_plans$/, "/api/get_plans.php"),
+      },
+    },
     hmr: {
       overlay: false,
     },

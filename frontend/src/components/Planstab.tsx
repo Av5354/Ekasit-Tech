@@ -3,14 +3,46 @@ import { Button } from "@/components/ui/button";
 import { Wifi } from "lucide-react";
 import { useState, useEffect } from "react";
 
+type Plan = {
+  speed: string;
+  info1: string;
+  info2: string;
+  features: string[];
+  price: Array<number | string>;
+};
+
+const fallbackPlans: Plan[] = [
+  {
+    speed: "50 Mbps",
+    info1: "Unlimited Data",
+    info2: "Home WiFi",
+    features: ["1 Month", "3 Months", "6 Months"],
+    price: [499, 1399, 2699],
+  },
+  {
+    speed: "100 Mbps",
+    info1: "Unlimited Data",
+    info2: "Fiber Internet",
+    features: ["1 Month", "3 Months", "6 Months"],
+    price: [699, 1999, 3799],
+  },
+  {
+    speed: "200 Mbps",
+    info1: "Unlimited Data",
+    info2: "Priority Speed",
+    features: ["1 Month", "3 Months", "6 Months"],
+    price: [999, 2899, 5499],
+  },
+];
+
 const Planstab = ({ showViewAll = false }: { showViewAll?: boolean }) => {
   const [selectedPlan, setSelectedPlan] = useState<Record<string, number>>({});
-  const [plans, setPlans] = useState<any[]>([]);
+  const [plans, setPlans] = useState<Plan[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   
 
-  const handleSelectPlan = (p: any) => {
+  const handleSelectPlan = (p: Plan) => {
     const selectedIndex = selectedPlan[p.speed];
     if (selectedIndex === undefined || selectedIndex === null) {
       setErrors((prev) => ({ ...prev, [p.speed]: "Please select a month plan first" }));
@@ -24,10 +56,28 @@ const Planstab = ({ showViewAll = false }: { showViewAll?: boolean }) => {
   };
 
   useEffect(() => {
-    fetch(`https://ekasit-tech.infinityfree.me/api/get_plans.php`)
-      .then((res) => res.json())
-      .then((data) => setPlans(data))
-      .catch((err) => console.log(err));
+    fetch("/api/get_plans")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Plans API failed with status ${res.status}`);
+        }
+
+        return res.json();
+      })
+      .then((data) => {
+        if (!Array.isArray(data)) {
+          throw new Error("Plans API did not return an array");
+        }
+
+        setPlans(data);
+      })
+      .catch((err) => {
+        console.log(err);
+
+        if (import.meta.env.DEV) {
+          setPlans(fallbackPlans);
+        }
+      });
   }, []);
 
   return (

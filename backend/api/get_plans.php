@@ -1,12 +1,31 @@
 <?php
 
-header("Access-Control-Allow-Origin: https://ekasit-tech.vercel.app");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-//changes made 
-// Handle preflight request
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+$allowedOrigins = [
+    "https://ekasit-tech.vercel.app",
+    "http://localhost:8080"
+];
+
+$origin = $_SERVER["HTTP_ORIGIN"] ?? "";
+
+if (in_array($origin, $allowedOrigins, true)) {
+    header("Access-Control-Allow-Origin: " . $origin);
+    header("Vary: Origin");
+}
+
+header("Content-Type: application/json; charset=utf-8");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Accept");
+header("Access-Control-Max-Age: 86400");
+
+if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
+    http_response_code(204);
     exit(0);
+}
+
+if ($_SERVER["REQUEST_METHOD"] !== "GET") {
+    http_response_code(405);
+    echo json_encode(["error" => "Method not allowed"]);
+    exit;
 }
 
 include("../config/db.php");
@@ -25,6 +44,12 @@ ORDER BY p.id
 ";
 
 $result = mysqli_query($conn, $query);
+
+if (!$result) {
+    http_response_code(500);
+    echo json_encode(["error" => "Unable to load plans"]);
+    exit;
+}
 
 $plans = [];
 
